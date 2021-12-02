@@ -7,7 +7,7 @@ a method to measure the node_latency of ray
 
 1. 添加自定义更新本地节点资源函数
 
-​    在其中添加函数void ClusterResourceScheduler::UpdateLocalResourceInstances(const std::string &resource_name, const std::vector <FixedPoint> &instances)，该函数用于将时延写入到本地节点local_resources_的 custom_resources中（杨坤学长提供）
+​    在其中添加函数void ClusterResourceScheduler::UpdateLocalResourceInstances(const std::string &resource_name, const std::vector \<FixedPoint\> &instances)，该函数用于将时延写入到本地节点local_resources_的 custom_resources中（杨坤学长提供）
 
    2.添加时延测量代码
 
@@ -55,10 +55,10 @@ __***注：*** ip地址需换成自己想测量的ip
 
 1. 添加库函数
 
-   #include<cstdlib>
-   #include<string>
-   #include<cstdio>
-   #include<cstring>
+   #include\<cstdlib\>
+   #include\<string\>
+   #include\<cstdio\>
+   #include\<cstring\>
 
 2. 添加函数声明
 
