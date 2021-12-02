@@ -1,0 +1,38 @@
+void ClusterResourceScheduler::UpdateLocalResourceInstances(
+    const std::string &resource_name, const std::vector<FixedPoint> &instances) {
+  ResourceInstanceCapacities *node_instances;
+  local_resources_.predefined_resources.resize(PredefinedResources_MAX);
+  if (kCPU_ResourceLabel == resource_name) {
+    node_instances = &local_resources_.predefined_resources[CPU];
+  } else if (kGPU_ResourceLabel == resource_name) {
+    node_instances = &local_resources_.predefined_resources[GPU];
+  } else if (kObjectStoreMemory_ResourceLabel == resource_name) {
+    node_instances = &local_resources_.predefined_resources[OBJECT_STORE_MEM];
+  } else if (kMemory_ResourceLabel == resource_name) {
+    node_instances = &local_resources_.predefined_resources[MEM];
+  } else {
+    string_to_int_map_.Insert(resource_name);
+    int64_t resource_id = string_to_int_map_.Get(resource_name);
+    node_instances = &local_resources_.custom_resources[resource_id];
+  }
+
+  if (node_instances->total.size() < instances.size()) {
+    node_instances->total.resize(instances.size());
+    node_instances->available.resize(instances.size());
+  }
+
+
+  for (size_t i = 0; i < instances.size(); i++) {
+    auto diff_capacity_resources = instances[i] - node_instances->total[i];
+    node_instances->available[i] += diff_capacity_resources;
+    node_instances->total[i] += diff_capacity_resources;
+        // std::max(node_instances->total[i], node_instances->available[i]);
+    if(node_instances->available[i] < 0){
+      node_instances->available[i] = 0;
+    }
+    if(node_instances->total[i] < 0){
+      node_instances->total[i] = 0;
+    }
+  }
+  UpdateLocalAvailableResourcesFromResourceInstances();
+}
