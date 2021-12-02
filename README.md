@@ -56,9 +56,13 @@ __***注：*** ip地址需换成自己想测量的ip
 1. 添加库函数
 
    #include\<cstdlib\>
+   
    #include\<string\>
+   
    #include\<cstdio\>
+   
    #include\<cstring\>
+   
 
 2. 添加函数声明
 
